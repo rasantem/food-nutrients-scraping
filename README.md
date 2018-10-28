@@ -1,51 +1,20 @@
-# food-nutrients-scraping
-### Título dataset  
-food_nutrients
+#Práctica 1: Web scraping
 
-### Subtitulo dataset
-Contenido de nutrientes en productos alimenticios.
+##Tipologia i Cicle de Vida de les Dades - Máster en Ciencia de datos
 
-### Imagen dataset
+###Descripción
 
+La práctica consiste en la recopilación de los datos referentes a los nutrientes que componen diferentes productos a partir de la página web openfoodfacts.org que se incluirán en el Dataset final es_food_nutrients.csv. Se ha utilizado para ello el lenguaje de programación Python 2.7.
 
+###Componentes del grupo
 
-### Contexto
-El conjunto de datos recopilado corresponde a los diferentes nutrientes que componen alimentos alrededor del mundo.
-El conjunto consta de XXX productos y 15 atributos.
+Los trabajos de la práctica se han realizado de forma individual por Raúl Sánchez Temporal.
 
-### Contenido 
+###Descripción de los ficheros
 
-Los campos recogidos son los siguientes:
-- **Name**: Nombre del producto.
-- **Energy**: Valor energético del alimento.
-- **Fat**: Contenido en gramos de grasas.
-- **Saturated fat**: Contenido en gramos de grasas saturadas.
-- **Carbohidrate**: Contenido en gramos de carbohidratos.
-- **Sugars**: Contenido en gramos de gazúcares.
-- **Fiber**: Contenido en gramos de fibra.
-- **Proteins**: Contenido en gramos de proteinas.
-- **Salt**: Contenido en gramos de sales.
-- **Sodium**: Contenido en gramos de sodio.
-- **Alcohol**: Contenido en % vol. de alcohol.
-- **Zinc**: Contenido en gramos de zinc
-- **Magnesium**: Contenido en gramos de magnesio.
-- **Omega3**: Contenido en gramos de grasas Omega 3.
-- **Score**: Clasificación nutricional del producto. 
+src/main.py: Inicializa la clase crawler e inicia el proceso de recopilación de datos.
+src/foodCrawler.py: Implementa la clase crawler que permite recopilar los datos de los productos existentes en la página openfoodfacts.org de dos formas : Mediante la recopilación de productos por país o mediante la recopilación de los productos de forma global de todo el mundo.
 
+###Recursos
 
-Los campos muestran el contenido descrito por cada 100 gramos/mililitros de producto. 
-El proceso de recogida de los datos se llevó a cabo durante el día 28/10/2018 y su duración ha sido de alrededor 8 horas.  
-
-### Agradecimientos
-
-Se agradece a openfoodfacts.org, propietario de los datos, y a todos sus colaboradores la recopilación de información sobre los alimentos y su publicación sin restricciones de uso.
-
-### Inspiración 
-
-La inspiración viene dada por el interés que puede representar el uso de estos datos para realizar estudios sobres alimentos saludables o no, por ejemplo tareas de minería de datos, la clasificación o segregación de productos según sus diferentes características.
-
-### Licencia 	
-
-Este conjunto de datos se distribuye  bajo **licencia CC BY-SA 4.0**, mediante la cual  se permite su copia y distribución en cualquier medio y su adaptación para cualquier propósito, incluso comercial.
-
-Se utiliza esta licencia ya que los datos han sido obtenidos de una fuente que a su vez tiene **licencia Attribution 4.0 International (CC BY 4.0)** que nos permite la copia y distribución en cualquier medio bajo los términos de atribución necesarios.
+- Lawson, R. (2015). Web Scraping with Python. Packt Publishing Ltd.
