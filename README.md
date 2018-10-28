@@ -15,6 +15,6 @@ Los trabajos de la práctica se han realizado de forma individual por Raúl Sán
 - **src/main.py**: Inicializa la clase crawler e inicia el proceso de recopilación de datos.
 - **src/foodCrawler.py**: Implementa la clase crawler que permite recopilar los datos de los productos existentes en la página openfoodfacts.org de dos formas : Mediante la recopilación de productos por país o mediante la recopilación de los productos de forma global de todo el mundo.
 
-### R ecursos
+### Recursos
 
 - Lawson, R. (2015). Web Scraping with Python. Packt Publishing Ltd.
