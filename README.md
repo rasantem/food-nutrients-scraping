@@ -2,7 +2,7 @@
 
 ## Descripción
 
-La práctica consiste en la recopilación de los datos referentes a los nutrientes que componen diferentes productos a partir de la página web openfoodfacts.org que se incluirán en el Dataset final es_food_nutrients.csv. Se ha utilizado para ello el lenguaje de programación Python 2.7.
+La práctica consiste en la recopilación de los datos referentes a los nutrientes que componen diferentes productos a partir de la página web openfoodfacts.org que se incluirán en el Dataset final es_food_nutrients.csv. Se han almacenado las imágenes de cada uno de los productos en la carpeta es_images del dataset. Se ha utilizado para ello el lenguaje de programación Python 2.7.
 
 ## Componentes del grupo
 
