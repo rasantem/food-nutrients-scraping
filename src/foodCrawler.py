@@ -5,6 +5,7 @@ import lxml
 import random
 import time
 import pprint
+import os, errno
 
 
 class crawler:
@@ -88,7 +89,6 @@ class crawler:
                 if hasattr(e, 'code') and 500 <= e.code < 600:
                     # recursively retry 5xx HTTP errors
                     return self.downloadUrl(url, num_retries-1)
-            html = None
         return html
 
     # Get max. number page
@@ -108,65 +108,97 @@ class crawler:
     # Return product nutrients
     def scrap_product(self, url):
 
-        html = self.downloadUrl(url, 3)
+        html = self.downloadUrl(url, 5)
         tree = lxml.html.fromstring(html)
 
         p_elements = tree.cssselect('h1[property="food:name"]')
-        name = self.assing(p_elements)
+        name = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:energyPer100g"]')
-        energy = self.assing(p_elements)
+        energy = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:fatPer100g"]')
-        fat = self.assing(p_elements)
+        fat = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:saturatedFatPer100g"]')
-        s_fat = self.assing(p_elements)
+        s_fat = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:carbohydratesPer100g"]')
-        carbohydrate = self.assing(p_elements)
+        carbohydrate = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:sugarsPer100g"]')
-        sugars = self.assing(p_elements)
+        sugars = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:fiberPer100g"]')
-        fiber = self.assing(p_elements)
+        fiber = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:proteinsPer100g"]')
-        proteins = self.assing(p_elements)
+        proteins = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:saltPer100g"]')
-        salt = self.assing(p_elements)
+        salt = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:sodiumEquivalentPer100g"]')
-        sodium = self.assing(p_elements)
+        sodium = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:alcoholPer100g"]')
-        alcohol = self.assing(p_elements)
+        alcohol = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:zincPer100g"]')
-        zinc = self.assing(p_elements)
+        zinc = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:magnesiumPer100g"]')
-        magnesium = self.assing(p_elements)
+        magnesium = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('td[property="food:omega-3FatPer100g"]')
-        omega3 = self.assing(p_elements)
+        omega3 = self.assing(p_elements, False)
 
         p_elements = tree.cssselect('tr#nutriment_nutriscore_tr > .nutriment_value')
-        score = self.assing(p_elements)
+        score = self.assing(p_elements, False)
+
+        p_elements = tree.cssselect('#og_image')
+        image_url = self.assing(p_elements, True)
+        image_name = image_url.split('/products')[-1].replace("/", "_")
+
+        self.download_image(image_url, image_name)
 
         self.list_food_dict.append({"Name": name, "Energy": energy, "Fat": fat, "Saturated_fat": s_fat,
                                     "Carbohydrate": carbohydrate, "Sugars": sugars, "Fiber": fiber,"Proteins": proteins,
                                     "Salt": salt, "Sodium": sodium, "Alcohol": alcohol, "Zinc": zinc,
-                                    "Magnesium": magnesium, "Omega3": omega3, "Score": score})
+                                    "Magnesium": magnesium, "Omega3": omega3, "Score": score, "Img": image_name})
+
+    # Download image from url and save
+    def download_image(self, url_img, image_name):
+
+        # New folder by country
+        directory = "./" + self.country_code + "_images/"
+
+        if url_img is not 'Na':
+            try:
+                image = urllib2.urlopen(url_img)
+            except urllib2.URLError as e:
+                print e.code
+
+            # Folder creation
+            try:
+                os.makedirs(directory)
+            except OSError as e:
+                if e.errno != errno.EEXIST:
+                    raise
+            # Save image to new folder
+            with open(directory + image_name, 'wb') as output:
+                output.write(image.read())
 
     # Assing attribute value
-    def assing(self, elems):
+    def assing(self, elems, image):
         if not elems:
             value = "Na"
         else:
-            value = elems[0].text_content()  # .get('content')
+            if not image:
+                value = elems[0].text_content()  # .get('content')
+            else:
+                value = elems[0].get('data-src')
+
         return value
 
     # Returns country list
@@ -196,7 +228,7 @@ class crawler:
         print "\nSaving data to file: " + csv_name
         with open(csv_name, 'wb') as f:
             fnames = ["Name", "Energy", "Fat", "Saturated_fat", "Carbohydrate", "Sugars", "Fiber", "Proteins",
-                      "Salt", "Sodium", "Alcohol", "Zinc", "Magnesium", "Omega3", "Score"]
+                      "Salt", "Sodium", "Alcohol", "Zinc", "Magnesium", "Omega3", "Score", "Img"]
             writer = csv.DictWriter(f, delimiter=',', fieldnames=fnames, encoding='utf-8')
             writer.writeheader()
             writer.writerows(product for product in dict_list)
